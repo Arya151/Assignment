@@ -10,12 +10,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -35,14 +41,31 @@ fun AppNavigation(
     val navController = rememberNavController()
     val navigate = remember { mutableStateOf<String>("") }
 
+    val query by viewModel.query.collectAsState()
+
     NavHost(modifier = modifier, navController = navController, startDestination = "item_list") {
         composable("item_list") {
-            ItemListScreen(
-                viewModel = viewModel,
-                onNavigateToDetail = { selectedItem -> navigate.value = selectedItem },
-                navigate = navigate,
-                navController = navController
-            )
+
+            Column(
+                modifier = Modifier.fillMaxSize().padding(16.dp)
+            ) {
+                TextField(
+                    value = query,
+                    onValueChange = { viewModel.updateQuery(it) },
+                    modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
+                    },
+                    singleLine = true
+                )
+
+                ItemListScreen(
+                    viewModel = viewModel,
+                    onNavigateToDetail = { selectedItem -> navigate.value = selectedItem },
+                    navigate = navigate,
+                    navController = navController
+                )
+            }
         }
         composable("item_detail/{itemId}") { backStackEntry ->
             val itemId = backStackEntry.arguments?.getString("itemId")
