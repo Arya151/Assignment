@@ -70,4 +70,6 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.retrofit.gson.convertor)
 
+    implementation ("com.google.code.gson:gson:2.8.8")
+
 }

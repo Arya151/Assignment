@@ -73,7 +73,6 @@ fun ItemListScreen(
             .padding(16.dp)
     ) {
         items(items.value) { item ->
-            Log.d("tct","here 33")
             ItemCard(
                 item = item,
                 onClick = { onNavigateToDetail(item.id) }

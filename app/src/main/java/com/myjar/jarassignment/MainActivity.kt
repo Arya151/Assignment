@@ -24,7 +24,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LaunchedEffect(Unit) {
-                Log.d("tct","here 1")
                 viewModel.fetchData()
             }
             JarAssignmentTheme {
