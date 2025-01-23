@@ -1,5 +1,6 @@
 package com.myjar.jarassignment.ui.composables
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -63,6 +64,7 @@ fun ItemListScreen(
         val currRoute = navController.currentDestination?.route.orEmpty()
         if (!currRoute.contains("item_detail")) {
             navController.navigate("item_detail/${navigate.value}")
+            navigate.value = ""
         }
     }
     LazyColumn(
@@ -71,6 +73,7 @@ fun ItemListScreen(
             .padding(16.dp)
     ) {
         items(items.value) { item ->
+            Log.d("tct","here 33")
             ItemCard(
                 item = item,
                 onClick = { onNavigateToDetail(item.id) }
@@ -88,7 +91,16 @@ fun ItemCard(item: ComputerItem, onClick: () -> Unit) {
             .padding(8.dp)
             .clickable { onClick() }
     ) {
-        Text(text = item.name, fontWeight = FontWeight.Bold, color = Color.Transparent)
+        Text(text = item.name, fontWeight = FontWeight.Bold, color = Color.Black)
+        item.data?.color?.let {
+            Text(text = "Color: $it" , fontWeight = FontWeight.Normal, color = Color.Black)
+        }
+        item.data?.price?.let {
+            Text(text = "Price: $$it" , fontWeight = FontWeight.Normal, color = Color.Black)
+        }
+        item.data?.description?.let {
+            Text(text = "Description: $it" , fontWeight = FontWeight.Normal, color = Color.Black)
+        }
     }
 }
 
